@@ -1,11 +1,13 @@
 ## Coursera
 
 # installs dependencies
+if (!require("plyr")){
+  install.packages("plyr", dependencies=TRUE)
+}
+
 if (!require("dplyr")){
   install.packages("dplyr", dependencies=TRUE)
 }
-
-library(dplyr)
 
 # Get the data
 # don't forget getwd()/setwd()
@@ -76,8 +78,7 @@ meanstd <- dataset[grepl("mean|std|Subject_id|Activity_id", names(dataset))]
 ## done with "2"
 
 ## 3.Uses descriptive activity names to name the activities in the data set
-#mean_standart <- mean_standart[,-1]
-meanstd <- left_join(meanstd, act_labels, by="Activity_id",copy = FALSE)
+meanstd <- left_join(meanstd, act_labels, by="Activity_id",copy = FALSE)[,-1]
 ## done with "3"
 
 ## 4.Appropriately labels the data set with descriptive variable names. 
@@ -92,5 +93,8 @@ names(meanstd)<-gsub("BodyBody", "Body", names(meanstd))
 
 ## 5.From the data set in step 4, creates a second, independent tidy data set 
 ## with the average of each variable for each activity and each subject.
+tidy_data <- ddply(meanstd, c("Subject_id","Activity_type"), numcolwise(mean))
 
+write.table(tidy_data, file = "tidy_data.txt",sep="\t")
+## done with "5"
 
