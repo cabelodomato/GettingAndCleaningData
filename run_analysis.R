@@ -1,7 +1,13 @@
 ## Coursera
-Sys.setlocale("LC_TIME", "English")
-library(plyr)
 
+# installs dependencies
+if (!require("dplyr")){
+  install.packages("dplyr", dependencies=TRUE)
+}
+
+library(dplyr)
+
+# Get the data
 # don't forget getwd()/setwd()
 setwd("./")
 
@@ -65,8 +71,26 @@ dataset <- rbind(train_data,test_data)
 ## done with "1"
 
 
-## 2.Extracts only the measurements on the mean and standard deviation for each measurement. 
-mean_standart <- dataset[,grepl("mean|std|Subject_id|Activity_id", names(dataset))]
+## 2.Extracts only the measurements on the mean and standard deviation for each measurement. ??
+meanstd <- dataset[grepl("mean|std|Subject_id|Activity_id", names(dataset))]
 ## done with "2"
+
+## 3.Uses descriptive activity names to name the activities in the data set
+#mean_standart <- mean_standart[,-1]
+meanstd <- left_join(meanstd, act_labels, by="Activity_id",copy = FALSE)
+## done with "3"
+
+## 4.Appropriately labels the data set with descriptive variable names. 
+names(meanstd)<-gsub("\\(|\\)","",names(meanstd))
+names(meanstd)<-gsub("^t", "time", names(meanstd))
+names(meanstd)<-gsub("^f", "frequency", names(meanstd))
+names(meanstd)<-gsub("Acc", "Accelerometer", names(meanstd))
+names(meanstd)<-gsub("Gyro", "Gyroscope", names(meanstd))
+names(meanstd)<-gsub("Mag", "Magnitude", names(meanstd))
+names(meanstd)<-gsub("BodyBody", "Body", names(meanstd))
+## done with "4"
+
+## 5.From the data set in step 4, creates a second, independent tidy data set 
+## with the average of each variable for each activity and each subject.
 
 
