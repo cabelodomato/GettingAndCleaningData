@@ -1,4 +1,4 @@
-## Coursera
+## Coursera "Getting and cleaning data" course project
 
 # installs dependencies
 if (!require("plyr")){
@@ -95,6 +95,7 @@ names(meanstd)<-gsub("BodyBody", "Body", names(meanstd))
 ## with the average of each variable for each activity and each subject.
 tidy_data <- ddply(meanstd, c("Subject_id","Activity_type"), numcolwise(mean))
 
-write.table(tidy_data, file = "tidy_data.txt",sep="\t")
+write.table(tidy_data, file = "tidy_data.txt",row.name=FALSE)
 ## done with "5"
+
 
