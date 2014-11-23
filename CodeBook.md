@@ -37,8 +37,7 @@ These signals were used to estimate variables of the feature vector for each pat
 * mean(): Mean value
 * std(): Standard deviation
 
-# The raw data sets are processed with run_analisys.R script to create a tidy data
-# set
+# The raw data sets are processed with run_analisys.R script to create a tidy data set
 
 ### 1.Merges the training and the test sets to create one data set.
 
@@ -156,8 +155,7 @@ names(meanstd)<-gsub("Mag", "Magnitude", names(meanstd))
 names(meanstd)<-gsub("BodyBody", "Body", names(meanstd))
 ```
 
-## 5.From the data set in step 4, creates a second, independent tidy data set 
-## with the average of each variable for each activity and each subject.
+## 5.From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
 ```{r}
 tidy_data <- ddply(meanstd, c("Subject_id","Activity_type"), numcolwise(mean))
 ```
