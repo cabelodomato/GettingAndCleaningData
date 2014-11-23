@@ -1,8 +1,5 @@
 ---
 title: "Codebook for the Getting and cleaning data project"
-output:
-  html_document:
-    keep_md: yes
 ---
 
 Feature Selection 
@@ -56,40 +53,36 @@ features <- read.table(file.path(data_dir, "/features.txt"),sep="", header=FALSE
 act_labels <- read.table(file.path(data_dir, "/activity_labels.txt"),sep="", header=FALSE)  
 ```
 
-#### rename columns
+#### rename activity data columns
 ```{r}
 colnames(act_labels) <- c('Activity_id','Activity_type')
 ```
 
-#### Read in "test" data
+#### Read in "test" data and rename columns
 ```{r}
 x_test <- read.table(file.path(data_dir, "/test/X_test.txt"),sep="", header=FALSE)
 ```
 
-#### rename columns from features data
+#### rename x columns names from "features" data
 ```{r}
 colnames(x_test) <- features[,2]
 ```
 
+#### read and rename other "test" data
 ```{r}
 y_test <- read.table(file.path(data_dir, "/test/y_test.txt"),sep="", header=FALSE)
 ```
-
-#### rename columns
 ```{r}
 colnames(y_test) <- "Activity_id"
 ```
-
 ```{r}
 subject_test <- read.table(file.path(data_dir, "/test/subject_test.txt"),sep="", header=FALSE)
 ```
-
-####rename columns
 ```{r}
 colnames(subject_test) <- "Subject_id"
 ```
 
-#### bind test data by columns
+#### bind "test" data by columns
 ```{r}
 test_data <- cbind(cbind(x_test,subject_test),y_test)
 ```
@@ -99,30 +92,26 @@ test_data <- cbind(cbind(x_test,subject_test),y_test)
 x_train <- read.table(file.path(data_dir, "/train/X_train.txt"),sep="", header=FALSE)
 ```
 
-#### rename columns from features data
+#### rename x columns names from "features" data
 ```{r}
 colnames(x_train) <- features[,2]
 ```
 
+#### read and rename other "train" data
 ```{r}
 y_train <- read.table(file.path(data_dir, "/train/y_train.txt"),sep="", header=FALSE)
 ```
-
-#### rename columns
 ```{r}
 colnames(y_train) <- "Activity_id"
 ```
-
 ```{r}
 subject_train <- read.table(file.path(data_dir, "/train/subject_train.txt"),sep="", header=FALSE)
 ```
-
-####rename columns
 ```{r}
 colnames(subject_train) <- "Subject_id"
 ```
 
-#### bind test data by columns
+#### bind "train" data by columns
 ```{r}
 train_data <- cbind(cbind(x_train,subject_train),y_train)
 ```
@@ -134,7 +123,6 @@ dataset <- rbind(train_data,test_data)
 
 
 ## 2.Extracts only the measurements on the mean and standard deviation for each measurement.
-From the merged data set is extracted and intermediate data set with only the values of estimated mean (variables with labels that contain “mean”) and standard deviation (variables with labels that contain “std”).
 
 ```{r}
 meanstd <- dataset[grepl("mean|std|Subject_id|Activity_id", names(dataset))]
